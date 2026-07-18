@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahithi Adepu — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  :root{
+    --bg:#0D0A1A;
+    --bg-2:#150F28;
+    --bg-3:#1C1436;
+    --text:#ECE9F5;
+    --muted:#9B92B5;
+    --accent:#8B5CF6;
+    --accent-2:#D946EF;
+    --line:rgba(236,233,245,0.12);
+    --card:#150F28;
+    --shadow: 0 20px 60px rgba(0,0,0,0.45);
+  }
+  [data-theme="light"]{
+    --bg:#FAF9FC;
+    --bg-2:#F1EEF9;
+    --bg-3:#E9E4F5;
+    --text:#1A1626;
+    --muted:#635C79;
+    --accent:#7C3AED;
+    --accent-2:#C026D3;
+    --line:rgba(26,22,38,0.1);
+    --card:#FFFFFF;
+    --shadow: 0 20px 60px rgba(124,58,237,0.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    transition:background 0.4s ease, color 0.4s ease;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .display{font-family:'Space Grotesk',sans-serif;}
+
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    backdrop-filter:blur(14px);
+    background:color-mix(in srgb, var(--bg) 75%, transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1080px;margin:0 auto;padding:16px 28px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{font-family:'Space Grotesk';font-weight:700;font-size:1.05rem;letter-spacing:-0.02em;display:flex;align-items:center;gap:8px;}
+  .logo .dot{width:8px;height:8px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 12px var(--accent-2);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .nav-links{display:flex;gap:28px;font-size:0.88rem;}
+  .nav-links a{color:var(--muted);transition:color 0.25s;position:relative;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent-2);transition:width 0.25s;}
+  .nav-links a:hover::after{width:100%;}
+  .theme-toggle{
+    width:44px;height:24px;border-radius:20px;background:var(--bg-3);
+    border:1px solid var(--line);position:relative;cursor:pointer;flex-shrink:0;
+  }
+  .theme-toggle .knob{
+    position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    transition:transform 0.3s ease;
+  }
+  [data-theme="light"] .theme-toggle .knob{transform:translateX(20px);}
+  .nav-cta{display:none;}
+  @media(max-width:720px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+    position:relative;padding-top:100px;padding-bottom:60px;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 10%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 85% 30%, color-mix(in srgb, var(--accent-2) 14%, transparent), transparent 60%);
+  }
+  .scan-line{
+    position:absolute;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent, var(--accent-2), transparent);
+    opacity:0.6;
+    animation:scan 5s linear infinite;
+    pointer-events:none;
+  }
+  @keyframes scan{0%{top:8%;}100%{top:92%;}}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:0.75rem;letter-spacing:0.08em;color:var(--accent-2);
+    border:1px solid var(--line);padding:6px 12px;border-radius:100px;
+    margin-bottom:28px;background:var(--bg-2);width:fit-content;
+  }
+  .bbox{
+    position:relative;display:inline-block;
+  }
+  .bbox::before{
+    content:'';position:absolute;inset:-14px -18px;
+    border:1.5px solid var(--accent-2);border-radius:6px;
+    opacity:0;transform:scale(0.98);
+    transition:opacity 0.5s ease, transform 0.5s ease;
+  }
+  .bbox.active::before{opacity:1;transform:scale(1);}
+  .bbox-tag{
+    position:absolute;top:-32px;left:-18px;
+    background:var(--accent-2);color:#fff;
+    font-size:0.68rem;padding:3px 8px;border-radius:3px;
+    opacity:0;transform:translateY(4px);
+    transition:opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s;
+    white-space:nowrap;
+  }
+  .bbox.active .bbox-tag{opacity:1;transform:translateY(0);}
+  h1.name{
+    font-size:clamp(2.6rem,7vw,5.2rem);
+    font-weight:700;line-height:1.02;letter-spacing:-0.03em;
+  }
+  .role-line{
+    margin-top:22px;font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--muted);
+    display:flex;align-items:center;gap:10px;
+  }
+  .cursor{
+    display:inline-block;width:2px;height:1.1em;background:var(--accent-2);
+    animation:blink 1s step-end infinite;vertical-align:middle;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .hero-desc{
+    max-width:560px;margin-top:26px;color:var(--muted);font-size:1rem;line-height:1.7;
+  }
+  .hero-actions{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap;}
+  .btn{
+    padding:13px 24px;border-radius:8px;font-size:0.92rem;font-weight:600;
+    display:inline-flex;align-items:center;gap:8px;transition:transform 0.25s, box-shadow 0.25s;
+    cursor:pointer;border:1px solid transparent;
+  }
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px color-mix(in srgb, var(--accent) 40%, transparent);}
+  .btn-ghost{border-color:var(--line);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--accent-2);}
+  .hero-stats{display:flex;gap:36px;margin-top:56px;flex-wrap:wrap;}
+  .stat b{display:block;font-family:'Space Grotesk';font-size:1.6rem;}
+  .stat span{color:var(--muted);font-size:0.8rem;}
+
+  /* SECTION scaffolding */
+  section{padding:110px 0;border-bottom:1px solid var(--line);}
+  .tag-label{
+    font-family:'JetBrains Mono';font-size:0.78rem;color:var(--accent-2);
+    letter-spacing:0.05em;margin-bottom:14px;display:flex;align-items:center;gap:8px;
+  }
+  .tag-label::before{content:'[';}
+  .tag-label::after{content:']';}
+  h2.sec-title{
+    font-family:'Space Grotesk';font-size:clamp(1.7rem,3.4vw,2.6rem);
+    font-weight:600;letter-spacing:-0.02em;margin-bottom:48px;max-width:640px;
+  }
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease, transform 0.7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+  .about-grid p{color:var(--muted);line-height:1.85;font-size:1rem;margin-bottom:18px;}
+  .about-side{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;
+  }
+  .about-side .row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:0.9rem;}
+  .about-side .row:last-child{border-bottom:none;}
+  .about-side .row span:first-child{color:var(--muted);}
+  @media(max-width:800px){.about-grid{grid-template-columns:1fr;}}
+
+  /* EXPERIENCE timeline */
+  .timeline{position:relative;padding-left:32px;}
+  .timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--line);}
+  .t-item{position:relative;padding-bottom:48px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-dot{
+    position:absolute;left:-32px;top:4px;width:12px;height:12px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--accent-2);
+  }
+  .t-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+  .t-role{font-family:'Space Grotesk';font-weight:600;font-size:1.15rem;}
+  .t-company{color:var(--accent-2);font-size:0.9rem;margin-top:2px;}
+  .t-date{font-family:'JetBrains Mono';font-size:0.78rem;color:var(--muted);white-space:nowrap;}
+  .t-item ul{color:var(--muted);font-size:0.92rem;line-height:1.7;padding-left:18px;}
+  .t-item li{margin-bottom:6px;}
+
+  /* SKILLS */
+  .skill-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;}
+  .skill-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;transition:border-color 0.3s, transform 0.3s;}
+  .skill-card:hover{border-color:var(--accent-2);transform:translateY(-4px);}
+  .skill-card h3{font-family:'Space Grotesk';font-size:0.95rem;margin-bottom:14px;color:var(--accent-2);}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-family:'JetBrains Mono';font-size:0.75rem;padding:5px 10px;border-radius:5px;
+    background:var(--bg-2);border:1px solid var(--line);color:var(--text);
+  }
+
+  /* SERVICES */
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+  .service-card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;
+    position:relative;overflow:hidden;transition:transform 0.3s, border-color 0.3s;
+  }
+  .service-card:hover{transform:translateY(-6px);border-color:var(--accent-2);}
+  .service-card::before{
+    content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;
+  }
+  .service-card:hover::before{transform:scaleX(1);}
+  .service-icon{font-family:'JetBrains Mono';font-size:0.75rem;color:var(--accent-2);margin-bottom:14px;}
+  .service-card h3{font-family:'Space Grotesk';font-size:1.05rem;margin-bottom:10px;}
+  .service-card p{color:var(--muted);font-size:0.88rem;line-height:1.6;}
+  .status-note{
+    margin-top:28px;padding:16px 20px;border-radius:10px;background:var(--bg-2);
+    border:1px dashed var(--line);font-size:0.88rem;color:var(--muted);display:flex;align-items:center;gap:10px;
+  }
+  .status-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0;box-shadow:0 0 8px #22c55e;}
+
+  /* PROJECTS */
+  .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;}
+  .project-card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden;
+    position:relative;transition:transform 0.35s ease, border-color 0.35s;cursor:pointer;
+  }
+  .project-card:hover{transform:translateY(-6px);border-color:var(--accent-2);}
+  .project-top{
+    height:130px;position:relative;overflow:hidden;
+    background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, var(--bg-2)), color-mix(in srgb, var(--accent-2) 18%, var(--bg-2)));
+    display:flex;align-items:flex-start;justify-content:flex-end;padding:14px;
+  }
+  .conf-tag{
+    font-family:'JetBrains Mono';font-size:0.68rem;background:rgba(0,0,0,0.55);color:#fff;
+    padding:3px 8px;border-radius:4px;opacity:0;transform:translateY(-6px);
+    transition:opacity 0.3s ease, transform 0.3s ease;
+  }
+  .project-card:hover .conf-tag{opacity:1;transform:translateY(0);}
+  .project-body{padding:22px;}
+  .project-body h3{font-family:'Space Grotesk';font-size:1.08rem;margin-bottom:8px;}
+  .project-body p{color:var(--muted);font-size:0.87rem;line-height:1.6;margin-bottom:14px;}
+  .tech-row{display:flex;flex-wrap:wrap;gap:6px;}
+  .tech-row span{font-family:'JetBrains Mono';font-size:0.68rem;color:var(--accent-2);}
+
+  /* EDUCATION */
+  .edu-item{
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    padding:22px 0;border-bottom:1px solid var(--line);
+  }
+  .edu-item:last-child{border-bottom:none;}
+  .edu-item h3{font-family:'Space Grotesk';font-size:1.05rem;}
+  .edu-item .edu-sub{color:var(--accent-2);font-size:0.87rem;margin-top:4px;}
+  .edu-item .edu-date{font-family:'JetBrains Mono';font-size:0.78rem;color:var(--muted);}
+  .edu-badge{
+    font-family:'JetBrains Mono';font-size:0.72rem;color:var(--text);
+    background:var(--bg-2);border:1px solid var(--line);padding:3px 9px;border-radius:5px;margin-top:8px;display:inline-block;
+  }
+
+  /* CONTACT / FOOTER */
+  footer{padding:90px 0 40px;}
+  .contact-box{
+    background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, var(--bg-2)), color-mix(in srgb, var(--accent-2) 10%, var(--bg-2)));
+    border:1px solid var(--line);border-radius:20px;padding:56px 40px;text-align:center;
+  }
+  .contact-box h2{font-family:'Space Grotesk';font-size:clamp(1.6rem,3.6vw,2.4rem);margin-bottom:16px;}
+  .contact-box p{color:var(--muted);max-width:480px;margin:0 auto 30px;}
+  .contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .foot-bottom{
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    margin-top:56px;font-size:0.8rem;color:var(--muted);
+  }
+
+  /* EMAIL MODAL */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:32px;max-width:440px;width:100%;box-shadow:var(--shadow);
+    position:relative;
+  }
+  .modal-close{
+    position:absolute;top:18px;right:18px;width:28px;height:28px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    color:var(--muted);border:1px solid var(--line);background:none;font-size:1rem;
+  }
+  .modal-close:hover{color:var(--text);border-color:var(--accent-2);}
+  .modal-box h3{font-family:'Space Grotesk';font-size:1.3rem;margin-bottom:6px;}
+  .modal-box .modal-sub{color:var(--muted);font-size:0.85rem;margin-bottom:24px;}
+  .form-field{margin-bottom:16px;}
+  .form-field label{font-size:0.78rem;color:var(--muted);display:block;margin-bottom:6px;font-family:'JetBrains Mono';}
+  .form-field input, .form-field textarea{
+    width:100%;padding:11px 13px;border-radius:8px;border:1px solid var(--line);
+    background:var(--bg-2);color:var(--text);font-family:'Inter';font-size:0.92rem;
+    resize:vertical;
+  }
+  .form-field input:focus, .form-field textarea:focus{outline:none;border-color:var(--accent-2);}
+  .form-status{font-size:0.83rem;margin-top:12px;min-height:20px;}
+  .form-status.success{color:#22c55e;}
+  .form-status.error{color:#ef4444;}
+  .btn-full{width:100%;justify-content:center;margin-top:6px;}
+  .btn[disabled]{opacity:0.6;cursor:not-allowed;}
+
+  @media(prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}
+  }
+  a:focus-visible, button:focus-visible, .theme-toggle:focus-visible{
+    outline:2px solid var(--accent-2);outline-offset:3px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo"><span class="dot"></span>Sahithi<span class="mono" style="color:var(--muted);font-weight:400;">.dev</span></div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="theme-toggle" id="themeToggle" role="button" tabindex="0" aria-label="Toggle theme"><div class="knob"></div></div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="scan-line"></div>
+  <div class="wrap">
+    <div class="eyebrow mono">● available for full-time roles</div>
+    <h1 class="name">
+      <span class="bbox" id="nameBox">Sahithi Adepu<span class="bbox-tag mono" id="nameTag">person · conf 0.98</span></span>
+    </h1>
+    <div class="role-line mono">
+      <span id="typedRole"></span><span class="cursor"></span>
+    </div>
+    <p class="hero-desc">
+      EEE graduate (Gold Medalist) who pivoted into AI, data, and computer vision. I train models to see, build pipelines that make sense of data, and ship software that connects the two.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#projects">View Projects</a>
+      <a class="btn btn-ghost" href="#contact">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><b>79%</b><span>Gold Medalist, B.Tech EEE</span></div>
+      <div class="stat"><b>2</b><span>Published Research Papers</span></div>
+      <div class="stat"><b>2</b><span>Professional Internships</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="tag-label">ABOUT</div>
+    <h2 class="sec-title reveal">Where data, AI, and code meet</h2>
+    <div class="about-grid">
+      <div class="reveal">
+        <p>I'm Sahithi Adepu, an Electrical and Electronics Engineering graduate (2025, Gold Medalist) who pivoted into AI and data during my final year. My work spans image/video annotation for ML training, MongoDB-based data pipelines, KPI monitoring, and workflow automation — built through hands-on internships at Eizen and Amdox Technologies.</p>
+        <p>I'm drawn to the intersection of AI, data, and visual systems — where intelligent technology meets creative storytelling and machines learn to "see" and interpret the world. My goal is to keep building in that space, contributing to teams creating genuinely forward-looking, useful products, while sharpening my depth in computer vision and applied machine learning.</p>
+      </div>
+      <div class="about-side reveal">
+        <div class="row"><span>Location</span><span>Hyderabad, India</span></div>
+        <div class="row"><span>Email</span><span>sahithiadepu123@gmail.com</span></div>
+        <div class="row"><span>Phone</span><span>9861504189</span></div>
+        <div class="row"><span>Languages</span><span>English, Hindi, Telugu</span></div>
+        <div class="row"><span>GitHub</span><span>Sahi1809</span></div>
+        <div class="row"><span>Status</span><span>Open to opportunities</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="tag-label">EXPERIENCE</div>
+    <h2 class="sec-title reveal">Internships that shaped my direction</h2>
+    <div class="timeline">
+      <div class="t-item reveal">
+        <div class="t-dot"></div>
+        <div class="t-head">
+          <div>
+            <div class="t-role">Machine Learning Engineer Intern</div>
+            <div class="t-company">Eizen · Hybrid</div>
+          </div>
+          <div class="t-date">Apr 2026 – Jun 2026</div>
+        </div>
+        <ul>
+          <li>Analyzed operational data and KPIs to measure performance, identify anomalies, and support data-driven reporting across the Video Intelligence Platform (VIP)</li>
+          <li>Created and validated SOPs, translating operational requirements into structured process documentation</li>
+          <li>Extracted frames from video footage and performed image annotation to build labeled datasets for ML model training and ground truth verification</li>
+          <li>Queried and managed structured data in MongoDB to support analytics workflows and reporting accuracy</li>
+        </ul>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-dot"></div>
+        <div class="t-head">
+          <div>
+            <div class="t-role">Web Development Intern</div>
+            <div class="t-company">Amdox Technologies · Remote</div>
+          </div>
+          <div class="t-date">Dec 2025 – Mar 2026</div>
+        </div>
+        <ul>
+          <li>Contributed to automation pipeline development and backend data handling using JSON data structures and REST API integration</li>
+          <li>Built frontend modules integrated with REST APIs, handling structured data across live project environments</li>
+          <li>Collaborated cross-functionally to support client-facing feature development and backend workflow automation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="tag-label">SKILLS</div>
+    <h2 class="sec-title reveal">Primary skills & expertise</h2>
+    <div class="skill-groups">
+      <div class="skill-card reveal">
+        <h3>Programming Languages</h3>
+        <div class="chip-row">
+          <span class="chip">Java</span><span class="chip">JavaScript ES6+</span><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">SQL</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <h3>Frameworks & Concepts</h3>
+        <div class="chip-row">
+          <span class="chip">MERN basics</span><span class="chip">REST APIs</span><span class="chip">OOP</span><span class="chip">SDLC</span><span class="chip">Agile</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <h3>Databases</h3>
+        <div class="chip-row">
+          <span class="chip">MongoDB</span><span class="chip">SQL</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <h3>AI / ML & Computer Vision</h3>
+        <div class="chip-row">
+          <span class="chip">YOLO / YOLOv8</span><span class="chip">Roboflow</span><span class="chip">Image Annotation</span><span class="chip">KPI Analysis</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <h3>Tools & Platforms</h3>
+        <div class="chip-row">
+          <span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">VS Code</span><span class="chip">MS Excel</span><span class="chip">Arduino IDE</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <h3>Soft Skills</h3>
+        <div class="chip-row">
+          <span class="chip">Problem Solving</span><span class="chip">Documentation</span><span class="chip">Collaboration</span><span class="chip">Communication</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="tag-label">CAPABILITIES</div>
+    <h2 class="sec-title reveal">What I bring to a team</h2>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon mono">// vision</div>
+        <h3>Computer Vision & Annotation</h3>
+        <p>Image/video frame extraction and annotation (Roboflow/YOLOv8) for ML model training and ground truth verification.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon mono">// data</div>
+        <h3>Data Analysis & KPI Reporting</h3>
+        <p>Analyzing operational data and KPIs to identify anomalies and support data-driven decision-making.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon mono">// db</div>
+        <h3>Database Management</h3>
+        <p>MongoDB (CRUD, data operations) and SQL for structured data handling and analytics workflows.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon mono">// api</div>
+        <h3>API Integration</h3>
+        <p>REST API integration for both frontend and backend data handling across live project environments.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon mono">// auto</div>
+        <h3>Workflow Automation</h3>
+        <p>Automation pipeline development using JSON data structures and process documentation (SOPs).</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon mono">// iot</div>
+        <h3>IoT Solutions</h3>
+        <p>Embedded systems and sensor-driven automation (Arduino, Embedded C), demonstrated through published research.</p>
+      </div>
+    </div>
+    <div class="status-note reveal">
+      <span class="status-dot"></span> Currently seeking full-time opportunities — not taking on freelance projects at the moment.
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="tag-label">PROJECTS</div>
+    <h2 class="sec-title reveal">Things I've built</h2>
+    <div class="project-grid">
+      <div class="project-card reveal">
+        <div class="project-top"><span class="conf-tag">web · conf 0.94</span></div>
+        <div class="project-body">
+          <h3>Job Listing Portal</h3>
+          <p>Full-stack job listing portal with dynamic pages and structured data handling across frontend components.</p>
+          <div class="tech-row"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>MERN Stack</span></div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-top"><span class="conf-tag">web · conf 0.91</span></div>
+        <div class="project-body">
+          <h3>Weather Application</h3>
+          <p>Responsive app consuming a third-party REST API, handling JSON responses and dynamic DOM rendering.</p>
+          <div class="tech-row"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>OpenWeather API</span></div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-top"><span class="conf-tag">iot · conf 0.97</span></div>
+        <div class="project-body">
+          <h3>Smart Plant Monitoring & Irrigation</h3>
+          <p>Automated IoT system with sensor-driven logic for real-time plant monitoring. Published in J. Technische Sicherheit (2025).</p>
+          <div class="tech-row"><span>Arduino IDE</span><span>IoT</span><span>Embedded C</span></div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-top"><span class="conf-tag">iot · conf 0.95</span></div>
+        <div class="project-body">
+          <h3>Fire Fighting Robot</h3>
+          <p>Autonomous fire-detection and suppression robot using flame sensors and control logic. Published in IJAEMA (2024).</p>
+          <div class="tech-row"><span>Arduino IDE</span><span>IoT</span><span>Embedded Systems</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="tag-label">EDUCATION</div>
+    <h2 class="sec-title reveal">Academic background</h2>
+    <div class="reveal">
+      <div class="edu-item">
+        <div>
+          <h3>B.Tech, Electrical and Electronics Engineering</h3>
+          <div class="edu-sub">Bhoj Reddy Engineering College for Women, Hyderabad</div>
+          <div class="edu-badge mono">Gold Medalist · 79%</div>
+        </div>
+        <div class="edu-date">Nov 2021 – Jul 2025</div>
+      </div>
+      <div class="edu-item">
+        <div>
+          <h3>12th, MPC</h3>
+          <div class="edu-sub">Sigma Junior College, Warangal</div>
+          <div class="edu-badge mono">90%</div>
+        </div>
+        <div class="edu-date">Jun 2020 – Mar 2021</div>
+      </div>
+      <div class="edu-item">
+        <div>
+          <h3>10th Standard (SSC)</h3>
+          <div class="edu-sub">Montessori E/M High School, Mandamarri, Mancherial Dist.</div>
+          <div class="edu-badge mono">98%</div>
+        </div>
+        <div class="edu-date">2019</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="contact-box reveal">
+      <h2>Let's build something together</h2>
+      <p>Open to full-time roles across AI/ML, data, and software engineering. Reach out — I'd love to talk.</p>
+      <div class="contact-links">
+        <button class="btn btn-primary" id="emailBtn" type="button">Email Me</button>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/sahithiadepu/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-ghost" href="https://github.com/Sahi1809" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-ghost" href="https://www.hackerrank.com/profile/sahithiadepu123" target="_blank" rel="noopener">HackerRank</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Sahithi Adepu</span>
+      <span class="mono">Hyderabad, India</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <h3>Send me a message</h3>
+    <p class="modal-sub">Fill this in and it'll land straight in my inbox.</p>
+    <form id="contactForm">
+      <div class="form-field">
+        <label for="fromName">Your name</label>
+        <input type="text" id="fromName" name="from_name" required>
+      </div>
+      <div class="form-field">
+        <label for="replyTo">Your email</label>
+        <input type="email" id="replyTo" name="reply_to" required>
+      </div>
+      <div class="form-field">
+        <label for="msgBody">Message</label>
+        <textarea id="msgBody" name="message" rows="4" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full" id="sendBtn">Send Message</button>
+      <div class="form-status" id="formStatus"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // ===== EmailJS setup — paste your own IDs here =====
+  const EMAILJS_PUBLIC_KEY = "kLYGNkcNBH8oiEmUM";
+  const EMAILJS_SERVICE_ID = "service_vuzqtfd";
+  const EMAILJS_TEMPLATE_ID = "template_pqxbqxp";
+  // =====================================================
+
+  if(window.emailjs){ emailjs.init(EMAILJS_PUBLIC_KEY); }
+
+  const modalOverlay = document.getElementById('modalOverlay');
+  const emailBtnEl = document.getElementById('emailBtn');
+  const modalClose = document.getElementById('modalClose');
+  const contactForm = document.getElementById('contactForm');
+  const sendBtn = document.getElementById('sendBtn');
+  const formStatus = document.getElementById('formStatus');
+
+  emailBtnEl.addEventListener('click', ()=>{
+    modalOverlay.classList.add('open');
+    formStatus.textContent = '';
+    formStatus.className = 'form-status';
+  });
+  modalClose.addEventListener('click', ()=> modalOverlay.classList.remove('open'));
+  modalOverlay.addEventListener('click', (e)=>{ if(e.target === modalOverlay) modalOverlay.classList.remove('open'); });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') modalOverlay.classList.remove('open'); });
+
+  contactForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!window.emailjs){
+      formStatus.textContent = 'EmailJS failed to load. Check your internet connection.';
+      formStatus.className = 'form-status error';
+      return;
+    }
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending…';
+    formStatus.textContent = '';
+    formStatus.className = 'form-status';
+
+    emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm)
+      .then(()=>{
+        formStatus.textContent = "Message sent — thank you! I'll get back to you soon.";
+        formStatus.className = 'form-status success';
+        contactForm.reset();
+      })
+      .catch((err)=>{
+        formStatus.textContent = 'Something went wrong. Please try again or email directly.';
+        formStatus.className = 'form-status error';
+        console.error('EmailJS error:', err);
+      })
+      .finally(()=>{
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send Message';
+      });
+  });
+
+  // Theme toggle
+  const root = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+  function setTheme(t){ root.setAttribute('data-theme', t); }
+  toggle.addEventListener('click', ()=>{
+    const cur = root.getAttribute('data-theme');
+    setTheme(cur === 'dark' ? 'light' : 'dark');
+  });
+  toggle.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle.click(); }
+  });
+
+  // Bounding box reveal on hero name
+  setTimeout(()=>{ document.getElementById('nameBox').classList.add('active'); }, 700);
+
+  // Typing effect for role line
+  const roles = ["AI/ML & Data Enthusiast", "Computer Vision Explorer", "Software Engineer in Training"];
+  const el = document.getElementById('typedRole');
+  let ri = 0, ci = 0, deleting = false;
+  function typeLoop(){
+    const word = roles[ri];
+    if(!deleting){
+      el.textContent = word.slice(0, ci+1);
+      ci++;
+      if(ci === word.length){ deleting = true; setTimeout(typeLoop, 1400); return; }
+    } else {
+      el.textContent = word.slice(0, ci-1);
+      ci--;
+      if(ci === 0){ deleting = false; ri = (ri+1) % roles.length; }
+    }
+    setTimeout(typeLoop, deleting ? 40 : 80);
+  }
+  typeLoop();
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); observer.unobserve(e.target); } });
+  }, {threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
