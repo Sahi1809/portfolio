@@ -168,7 +168,13 @@
 
   /* ABOUT */
   .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
-  .about-grid p{color:var(--muted);line-height:1.85;font-size:1rem;margin-bottom:18px;}
+  .about-grid p{
+    color:var(--muted);
+    line-height:1.85;
+    font-size:1rem;
+    margin-bottom:18px;
+    text-align: justify; /* Aligns text evenly on both left and right edges */
+  }
   .about-side{
     background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;
   }
@@ -354,6 +360,7 @@
     font-size: 0.98rem;
     line-height: 1.8;
     margin-bottom: 24px;
+    text-align: justify; /* Keeps the popup text perfectly straight and uniform */
   }
   .project-modal-desc p {
     margin-bottom: 14px;
@@ -820,9 +827,9 @@
 
 <script>
   // ===== EmailJS setup — paste your own IDs here =====
-  const EMAILJS_PUBLIC_KEY = "";
-  const EMAILJS_SERVICE_ID = "";
-  const EMAILJS_TEMPLATE_ID = "";
+  const EMAILJS_PUBLIC_KEY = "kLYGNkcNBH8oiEmUM";
+  const EMAILJS_SERVICE_ID = "service_vuzqtfd";
+  const EMAILJS_TEMPLATE_ID = "template_pqxbqxp";
   // =====================================================
 
   if(window.emailjs){ emailjs.init(EMAILJS_PUBLIC_KEY); }
