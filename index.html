@@ -278,7 +278,7 @@
     margin-top:56px;font-size:0.8rem;color:var(--muted);
   }
 
-  /* EMAIL MODAL */
+  /* GENERAL MODAL STYLES (SHARED) */
   .modal-overlay{
     position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);
     display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;
@@ -293,8 +293,11 @@
     position:absolute;top:18px;right:18px;width:28px;height:28px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;cursor:pointer;
     color:var(--muted);border:1px solid var(--line);background:none;font-size:1rem;
+    z-index: 10;
   }
   .modal-close:hover{color:var(--text);border-color:var(--accent-2);}
+  
+  /* EMAIL MODAL SPECIFIC */
   .modal-box h3{font-family:'Space Grotesk';font-size:1.3rem;margin-bottom:6px;}
   .modal-box .modal-sub{color:var(--muted);font-size:0.85rem;margin-bottom:24px;}
   .form-field{margin-bottom:16px;}
@@ -310,6 +313,65 @@
   .form-status.error{color:#ef4444;}
   .btn-full{width:100%;justify-content:center;margin-top:6px;}
   .btn[disabled]{opacity:0.6;cursor:not-allowed;}
+
+  /* PROJECT DETAIL MODAL SPECIFIC */
+  .modal-box.project-modal-box {
+    max-width: 800px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 40px;
+  }
+  .project-modal-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .project-modal-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .project-modal-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .project-modal-gallery img {
+    width: 100%;
+    max-height: 450px; /* Gives the image plenty of room to grow vertically */
+    object-fit: contain; /* Forces the browser to show the WHOLE image without cropping */
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    padding: 8px; /* Adds a clean border frame around your diagram */
+  }
+  .project-modal-desc {
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.8;
+    margin-bottom: 24px;
+  }
+  .project-modal-desc p {
+    margin-bottom: 14px;
+  }
+  .project-modal-desc ul, .project-modal-desc ol {
+    padding-left: 20px;
+    margin-bottom: 14px;
+  }
+  .project-modal-desc li {
+    margin-bottom: 6px;
+  }
+  .project-modal-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
 
   @media(prefers-reduced-motion: reduce){
     *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}
@@ -364,7 +426,7 @@
 <section id="about">
   <div class="wrap">
     <div class="tag-label">ABOUT</div>
-    <h2 class="sec-title reveal">Where data, AI, and code meet</h2>
+    <h2 class="sec-title reveal">Where Data, AI, and Code Meet</h2>
     <div class="about-grid">
       <div class="reveal">
         <p>I'm Sahithi Adepu, an Electrical and Electronics Engineering graduate (2025, Gold Medalist) who pivoted into AI and data during my final year. My work spans image/video annotation for ML training, MongoDB-based data pipelines, KPI monitoring, and workflow automation — built through hands-on internships at Eizen and Amdox Technologies.</p>
@@ -373,7 +435,6 @@
       <div class="about-side reveal">
         <div class="row"><span>Location</span><span>Hyderabad, India</span></div>
         <div class="row"><span>Email</span><span>sahithiadepu123@gmail.com</span></div>
-        <div class="row"><span>Phone</span><span>9861504189</span></div>
         <div class="row"><span>Languages</span><span>English, Hindi, Telugu</span></div>
         <div class="row"><span>GitHub</span><span>Sahi1809</span></div>
         <div class="row"><span>Status</span><span>Open to opportunities</span></div>
@@ -385,7 +446,7 @@
 <section id="experience">
   <div class="wrap">
     <div class="tag-label">EXPERIENCE</div>
-    <h2 class="sec-title reveal">Internships that shaped my direction</h2>
+    <h2 class="sec-title reveal">Internships that Shaped my Direction</h2>
     <div class="timeline">
       <div class="t-item reveal">
         <div class="t-dot"></div>
@@ -425,7 +486,7 @@
 <section id="skills">
   <div class="wrap">
     <div class="tag-label">SKILLS</div>
-    <h2 class="sec-title reveal">Primary skills & expertise</h2>
+    <h2 class="sec-title reveal">Primary Skills & Expertise</h2>
     <div class="skill-groups">
       <div class="skill-card reveal">
         <h3>Programming Languages</h3>
@@ -470,7 +531,7 @@
 <section id="services">
   <div class="wrap">
     <div class="tag-label">CAPABILITIES</div>
-    <h2 class="sec-title reveal">What I bring to a team</h2>
+    <h2 class="sec-title reveal">What I Bring to a Team</h2>
     <div class="services-grid">
       <div class="service-card reveal">
         <div class="service-icon mono">// vision</div>
@@ -512,40 +573,158 @@
 <section id="projects">
   <div class="wrap">
     <div class="tag-label">PROJECTS</div>
-    <h2 class="sec-title reveal">Things I've built</h2>
+    <h2 class="sec-title reveal">Things I've Built</h2>
     <div class="project-grid">
-      <div class="project-card reveal">
+      
+      <!-- PROJECT 1: JOB LISTING PORTAL -->
+      <div class="project-card reveal" 
+           data-project-id="job-portal"
+           data-title="Job Listing Portal (TalentWay)"
+           data-tech="HTML, CSS, JavaScript, MERN Stack, REST APIs, UI/UX Design"
+           data-images="images/job_listing_portal.jpeg, images/job_2.jpeg, images/job_3.jpeg, images/job_4.jpeg"
+           data-certificate="" 
+           data-github="https://github.com/Sahi1809">
         <div class="project-top"><span class="conf-tag">web · conf 0.94</span></div>
         <div class="project-body">
           <h3>Job Listing Portal</h3>
           <p>Full-stack job listing portal with dynamic pages and structured data handling across frontend components.</p>
           <div class="tech-row"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>MERN Stack</span></div>
         </div>
+        <!-- HIGHLY DETAILED SCROLLABLE CONTENT FOR POPUP MODAL -->
+        <div class="modal-raw-content" style="display:none;">
+          <p><strong>Overview:</strong> A highly responsive, full-stack platform named <strong>TalentWay</strong> engineered to streamline applicant tracking and manage dynamic data structures across separate candidate and recruiter application dashboards.</p>
+          
+          <p><strong>Core Technical Capabilities:</strong></p>
+          <ul>
+            <li><strong>Dual-User Role Infrastructure:</strong> Developed distinct authentication flows and structural state views for both corporate recruiters looking to manage openings and candidates building active profiles.</li>
+            <li><strong>Dynamic Content Management:</strong> Maintained robust schemas to handle live database mutations, rendering instant interface updates when modifying job listings, profiles, or tracking states.</li>
+            <li><strong>Responsive UI Dashboard Environments:</strong> Crafted clean navigation layouts complete with dynamic dark/light mode toggling, layout management widgets, and real-time form validation frameworks.</li>
+          </ul>
+
+          <p><strong>Key Application Views & Engineering Details:</strong></p>
+          <ol>
+            <li><strong>Secure Multi-Option Authentication:</strong> Form fields built with rigid validation loops (length parameters, letter case checking, and special character checks) coupled with single sign-on integration blueprints and programmatic anti-bot verification challenges.</li>
+            <li><strong>Candidate Profile & Preference Builder:</strong> Interactive user module processing professional preferences like specific job roles, geographical choices, work modes (e.g., <em>Hybrid</em>), and relocation settings. Features an integrated visual metric tracking profile completion strength (e.g., <em>80% complete</em>).</li>
+            <li><strong>Recruiter Job Creation Suite:</strong> An input panel layout allowing corporate accounts to instantly configure new job criteria, including localized parameters, employment varieties, salary bracket fields, and explicit technical expectations.</li>
+            <li><strong>Company Identity Configuration:</strong> A dedicated corporate data profile layout capturing specific operational variables such as industry categorization, employee base scaling indices, online landing locations, and verified HR point-of-contact phone/email directories.</li>
+          </ol>
+        </div>
       </div>
-      <div class="project-card reveal">
+
+      <!-- PROJECT 2: WEATHER APPLICATION -->
+      <div class="project-card reveal" 
+           data-project-id="weather-app"
+           data-title="Weather Application"
+           data-tech="HTML, CSS, JavaScript, OpenWeather API"
+           data-images="images\weather_application.png"
+           data-certificate="" 
+           data-github="https://github.com/Sahi1809">
         <div class="project-top"><span class="conf-tag">web · conf 0.91</span></div>
         <div class="project-body">
           <h3>Weather Application</h3>
           <p>Responsive app consuming a third-party REST API, handling JSON responses and dynamic DOM rendering.</p>
           <div class="tech-row"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>OpenWeather API</span></div>
         </div>
+        <!-- HIGHLY DETAILED SCROLLABLE CONTENT FOR POPUP MODAL -->
+        <div class="modal-raw-content" style="display:none;">
+          <p><strong>Overview:</strong> A sleek, modern front-end application built to parse asynchronous global climate workflows. The project leverages third-party REST endpoint architectures to fetch live regional metrics and render real-time UI transitions fluidly.</p>
+          
+          <p><strong>Key Engineering Factors:</strong></p>
+          <ul>
+            <li><strong>Asynchronous Fetch Mechanics:</strong> Implemented robust JavaScript promises and async/await templates to query live endpoints efficiently while preventing user-interface execution freezes.</li>
+            <li><strong>Data Extraction & Parsing:</strong> Optimized complex nested JSON structural maps down into light, direct variables to process metrics effortlessly.</li>
+            <li><strong>Dynamic DOM Interaction:</strong> Created modular innerHTML strings that inject fresh climate data onto the frontend layout smoothly on query resolution.</li>
+            <li><strong>State Error Boundaries:</strong> Integrated custom fallback handlers to capture invalid search entries or bad gateway indicators gracefully without breaking the layout ecosystem.</li>
+          </ul>
+
+          <p><strong>UI Layout & Functional Capabilities:</strong></p>
+          <ul>
+            <li><strong>Search Interface:</strong> Minimalist input utility complete with interactive icon nodes executing live search events upon enter or selection triggers.</li>
+            <li><strong>Primary Analytics:</strong> Bold real-time temperature telemetry displays accompanied by dynamic condition descriptors (e.g., <em>"overcast clouds"</em>) and visual weather status assets.</li>
+            <li><strong>Secondary Dashboard Cards:</strong> Dedicated low-level metric chips tracking environmental atmospheric variables including accurate <strong>Humidity percentages</strong> and calibrated <strong>Wind Speed arrays</strong> in km/hr.</li>
+          </ul>
+        </div>
       </div>
-      <div class="project-card reveal">
+
+     <!-- PROJECT 3: SMART PLANT MONITORING -->
+      <div class="project-card reveal" 
+           data-project-id="smart-plant"
+           data-title="Smart Plant Monitoring & Irrigation"
+           data-tech="Arduino IDE, IoT, Embedded C, PIR Sensor, Moisture Sensor, Rain Sensor"
+           data-images="images\smart_monitoring imaGE.png"
+           data-certificate="images\publication major certificatee.JPG" 
+           data-github="https://github.com/Sahi1809">
         <div class="project-top"><span class="conf-tag">iot · conf 0.97</span></div>
         <div class="project-body">
           <h3>Smart Plant Monitoring & Irrigation</h3>
           <p>Automated IoT system with sensor-driven logic for real-time plant monitoring. Published in J. Technische Sicherheit (2025).</p>
           <div class="tech-row"><span>Arduino IDE</span><span>IoT</span><span>Embedded C</span></div>
         </div>
+        <!-- HIGHLY DETAILED SCROLLABLE CONTENT FOR POPUP MODAL -->
+        <div class="modal-raw-content" style="display:none;">
+          <p><strong>Research & Publication Details:</strong> Formally published in the international engineering journal <em>J. Technische Sicherheit (2025)</em>.</p>
+          
+          <p><strong>Overview:</strong> This autonomous framework delivers continuous plant health diagnostics and sensor-driven agricultural automation. The system monitors environmental variables in real time, executing target responses with minimal human intervention to prevent crop damage and resource waste.</p>
+          
+          <p><strong>Hardware Architecture:</strong></p>
+          <ul>
+            <li><strong>Sensors:</strong> High-precision Soil Moisture probes, PIR motion sensors, Rain sensors, and Color sensors for leaf diagnostics.</li>
+            <li><strong>Power & Regulation:</strong> Dual Transformers coupled with stable Voltage Regulators ensuring clean power delivery.</li>
+            <li><strong>Actuation Mechanics:</strong> Submersible DC Pump for irrigation loops, Relays for isolation, and a high-torque DC Motor for physical structural adjustments.</li>
+            <li><strong>Communication Stack:</strong> Dedicated GSM Module for remote SMS alerts and notifications.</li>
+          </ul>
+
+          <p><strong>System Logic & Operational Testing Cases:</strong></p>
+          <ol>
+            <li><strong>Case 1 (Intrusion Detection):</strong> The PIR sensor continuously sweeps the perimeter to identify movements. When pests or target predators are detected near the crop canopy, the module filters ambient noise, triggers a localized alert, and transmits an immediate notification via GSM to the authorized operator.</li>
+            <li><strong>Case 2 (Autonomous Irrigation):</strong> The soil moisture matrix reads raw telemetry values. If the moisture index falls below the preset threshold (e.g., 30%), the controller opens the digital relay line to activate the DC water pump. The loop terminates automatically when optimal saturation is restored to avoid waterlogging.</li>
+            <li><strong>Case 3 (Leaf Health & Treatment):</strong> An optical color sensor tracks deviations in foliage tint to locate dry or deteriorating leaves. Upon detecting an unhealthy signature, the controller drives an automated sprayer system to apply targeted pesticides while sending a real-time status update to the user.</li>
+            <li><strong>Case 4 (Weather Protection):</strong> When moisture bridges the conductive traces on the rain sensor, the controller signals the DC motor to close a protective canopy shed over the delicate setup. Once rainfall ceases and the sensor plane dries, the system autonomously retracts the shed to resume regular sun exposure.</li>
+          </ol>
+        </div>
       </div>
-      <div class="project-card reveal">
+
+      <!-- PROJECT 4: FIRE FIGHTING ROBOT -->
+      <div class="project-card reveal" 
+          data-project-id="fire-robot"
+          data-title="Fire Fighting Robot"
+          data-tech="Arduino UNO, IoT, Embedded Systems, L293D IC, Fire Sensors, DC Pump"
+          data-images="images/robot_topview.png"
+          data-certificate="images/IJAEMA-JOURNAL CERTIFICATE-16-1.jpg"
+          data-github="https://github.com/Sahi1809">
         <div class="project-top"><span class="conf-tag">iot · conf 0.95</span></div>
         <div class="project-body">
           <h3>Fire Fighting Robot</h3>
           <p>Autonomous fire-detection and suppression robot using flame sensors and control logic. Published in IJAEMA (2024).</p>
           <div class="tech-row"><span>Arduino IDE</span><span>IoT</span><span>Embedded Systems</span></div>
         </div>
+        <!-- HIGHLY DETAILED SCROLLABLE CONTENT FOR POPUP MODAL -->
+        <div class="modal-raw-content" style="display:none;">
+          <p><strong>Research & Publication Details:</strong> Formally published in the peer-reviewed engineering journal <em>IJAEMA (2024)</em>.</p>
+          
+          <p><strong>Overview:</strong> The Firefighting Robot showcases an effective autonomous mitigation blueprint. The hardware components interface seamlessly with the central Arduino controller to analyze sensor inputs dynamically and execute precise steering updates and target suppression routines safely without manual oversight.</p>
+          
+          <p><strong>Hardware Architecture:</strong></p>
+          <ul>
+            <li><strong>Microcontroller:</strong> Arduino UNO core parsing sensory configurations.</li>
+            <li><strong>Power & Actuation:</strong> 12V Battery source paired with an L293D IC motor driver handling high-current DC Motors.</li>
+            <li><strong>Suppression Mechanics:</strong> Submersible DC Pump routed via a digital isolation Relay module.</li>
+            <li><strong>Navigation Arrays:</strong> High-sensitivity infrared Fire Sensors mounted at both front corners alongside a custom directional Servo Motor module.</li>
+            <li><strong>Telemetry:</strong> Liquid Crystal Display (LCD) providing immediate sensor diagnostic outputs.</li>
+          </ul>
+
+          <p><strong>System Logic & Operational Testing Cases:</strong></p>
+          <ol>
+            <li><strong>Case 1 (Idle Sweep):</strong> If the fire sensors do not pick up thermal anomalies in any direction, the system defaults to scanning. The telemetry panel explicitly reports status metrics as <code>FL: OFF</code> (Fire Left) and <code>FR: OFF</code> (Fire Right).</li>
+            <li><strong>Case 2 (Left Vector Action):</strong> When a heat signature registers on the left front perimeter, the navigation subsystem executes a precise angular turn toward the vector. Telemetry indicates Left Sensor: ON / Right Sensor: OFF.</li>
+            <li><strong>Case 3 (Right Vector Action):</strong> When a signature is acquired on the right front corner, control algorithms reverse the relative wheel speeds to swing towards the source. Telemetry updates to Right Sensor: ON / Left Sensor: OFF.</li>
+            <li><strong>Case 4 (Target Suppression):</strong> Once positioned squarely in front of the hazard, the target nozzle activates via the digital relay line, using its fluid containment structure to autonomously suppress the source completely.</li>
+          </ol>
+
+          <p><strong>Conclusion & Results:</strong> These structured scenarios prove the architecture's potential as a highly efficient, reliable, and entirely autonomous mobile hazard control method suited for dangerous environments.</p>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -553,11 +732,11 @@
 <section id="education">
   <div class="wrap">
     <div class="tag-label">EDUCATION</div>
-    <h2 class="sec-title reveal">Academic background</h2>
+    <h2 class="sec-title reveal">Academic Background</h2>
     <div class="reveal">
       <div class="edu-item">
         <div>
-          <h3>B.Tech, Electrical and Electronics Engineering</h3>
+          <h3>B-Tech, Electrical and Electronics Engineering</h3>
           <div class="edu-sub">Bhoj Reddy Engineering College for Women, Hyderabad</div>
           <div class="edu-badge mono">Gold Medalist · 79%</div>
         </div>
@@ -565,7 +744,7 @@
       </div>
       <div class="edu-item">
         <div>
-          <h3>12th, MPC</h3>
+          <h3>Intermediate</h3>
           <div class="edu-sub">Sigma Junior College, Warangal</div>
           <div class="edu-badge mono">90%</div>
         </div>
@@ -573,11 +752,11 @@
       </div>
       <div class="edu-item">
         <div>
-          <h3>10th Standard (SSC)</h3>
+          <h3>Metriculation</h3>
           <div class="edu-sub">Montessori E/M High School, Mandamarri, Mancherial Dist.</div>
           <div class="edu-badge mono">98%</div>
         </div>
-        <div class="edu-date">2019</div>
+        <div class="edu-date">Jun 2018 – Mar 2019</div>
       </div>
     </div>
   </div>
@@ -602,6 +781,7 @@
   </div>
 </footer>
 
+<!-- EMAIL MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-box">
     <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
@@ -626,11 +806,23 @@
   </div>
 </div>
 
+<!-- NEW: PROJECT DYNAMIC INJECTION MODAL -->
+<div class="modal-overlay" id="projectModalOverlay">
+  <div class="modal-box project-modal-box">
+    <button class="modal-close" id="projectModalClose" aria-label="Close">✕</button>
+    <div id="projectModalTitle" class="project-modal-title">Project Title</div>
+    <div id="projectModalTech" class="project-modal-tech"></div>
+    <div id="projectModalGallery" class="project-modal-gallery"></div>
+    <div id="projectModalDesc" class="project-modal-desc"></div>
+    <div id="projectModalActions" class="project-modal-actions"></div>
+  </div>
+</div>
+
 <script>
   // ===== EmailJS setup — paste your own IDs here =====
-  const EMAILJS_PUBLIC_KEY = "kLYGNkcNBH8oiEmUM";
-  const EMAILJS_SERVICE_ID = "service_vuzqtfd";
-  const EMAILJS_TEMPLATE_ID = "template_pqxbqxp";
+  const EMAILJS_PUBLIC_KEY = "";
+  const EMAILJS_SERVICE_ID = "";
+  const EMAILJS_TEMPLATE_ID = "";
   // =====================================================
 
   if(window.emailjs){ emailjs.init(EMAILJS_PUBLIC_KEY); }
@@ -649,7 +841,6 @@
   });
   modalClose.addEventListener('click', ()=> modalOverlay.classList.remove('open'));
   modalOverlay.addEventListener('click', (e)=>{ if(e.target === modalOverlay) modalOverlay.classList.remove('open'); });
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') modalOverlay.classList.remove('open'); });
 
   contactForm.addEventListener('submit', function(e){
     e.preventDefault();
@@ -678,6 +869,104 @@
         sendBtn.disabled = false;
         sendBtn.textContent = 'Send Message';
       });
+  });
+
+  // ==========================================
+  // PROJECT MODAL SYSTEM
+  // ==========================================
+  const projectModalOverlay = document.getElementById('projectModalOverlay');
+  const projectModalClose = document.getElementById('projectModalClose');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  projectCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const title = card.getAttribute('data-title');
+      const techString = card.getAttribute('data-tech');
+      const imagesString = card.getAttribute('data-images');
+      const certUrl = card.getAttribute('data-certificate');
+      const githubUrl = card.getAttribute('data-github');
+      const detailedHtml = card.querySelector('.modal-raw-content').innerHTML;
+
+      // Title Setup
+      document.getElementById('projectModalTitle').textContent = title;
+
+      // Tech Badges Setup
+      const techContainer = document.getElementById('projectModalTech');
+      techContainer.innerHTML = '';
+      if(techString) {
+        techString.split(',').forEach(t => {
+          const span = document.createElement('span');
+          span.className = 'chip';
+          span.textContent = t.trim();
+          techContainer.appendChild(span);
+        });
+      }
+
+      // Images Setup
+      const galleryContainer = document.getElementById('projectModalGallery');
+      galleryContainer.innerHTML = '';
+      if(imagesString) {
+        imagesString.split(',').forEach(src => {
+          const cleanSrc = src.trim();
+          if(cleanSrc) {
+            const img = document.createElement('img');
+            img.src = cleanSrc;
+            img.alt = title;
+            // Fallback strategy if target files aren't found locally yet
+            img.onerror = () => img.style.display = 'none'; 
+            galleryContainer.appendChild(img);
+          }
+        });
+      }
+
+      // Description Setup
+      document.getElementById('projectModalDesc').innerHTML = detailedHtml;
+
+      // Buttons / Links Setup
+      const actionsContainer = document.getElementById('projectModalActions');
+      if(actionsContainer) {
+        actionsContainer.innerHTML = '';
+
+        if(githubUrl) {
+          const ghBtn = document.createElement('a');
+          ghBtn.className = 'btn btn-primary';
+          ghBtn.href = githubUrl;
+          ghBtn.target = '_blank';
+          ghBtn.rel = 'noopener';
+          ghBtn.textContent = 'View Code Base';
+          actionsContainer.appendChild(ghBtn);
+        }
+
+        if(certUrl) {
+          const certBtn = document.createElement('a');
+          certBtn.className = 'btn btn-ghost';
+          certBtn.href = certUrl;
+          certBtn.target = '_blank'; // Opens the image file in a brand new clean tab
+          certBtn.rel = 'noopener';
+          certBtn.textContent = 'View Publication Certificate';
+          actionsContainer.appendChild(certBtn);
+        }
+      }
+
+      projectModalOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden'; // Prevents background body scrolling
+    });
+  });
+
+  const closeProjectModal = () => {
+    projectModalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  projectModalClose.addEventListener('click', closeProjectModal);
+  projectModalOverlay.addEventListener('click', (e) => { if(e.target === projectModalOverlay) closeProjectModal(); });
+
+  // Global Keybind Event Listener handles both modals
+  document.addEventListener('keydown', (e)=>{ 
+    if(e.key === 'Escape') {
+      modalOverlay.classList.remove('open');
+      closeProjectModal();
+    }
   });
 
   // Theme toggle
